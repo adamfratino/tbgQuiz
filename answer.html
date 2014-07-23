@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script>
+
+			var messageCodec = {
+
+			    createRandom: function () {
+			        var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+,./?";
+			        var string_length = Math.ceil(Math.random() * 10) + 19;
+			        var randomstring = [];
+			        for (var i=0; i<string_length; i++) {
+			            var rnum = Math.floor(Math.random() * chars.length);
+			            randomstring += chars.substring(rnum,rnum+1);
+			        }
+			        randomstring = randomstring.split('').join("</span><span>");
+			        return randomstring;
+			   },
+
+			    encode: function (message) {
+			        $('body').empty();
+			        var htmlString = '';
+			        
+			        for (var i = 0; i < message.length; i++) {
+			            htmlString += "<span hidden>" + message[i] + "</span><span>" + this.createRandom() + "</span>";
+			         }     
+			        
+			        $(htmlString).appendTo("body");
+			    
+			        var $visibleSpans = $('span:not([hidden])');
+
+			        $visibleSpans.each(function (index, el) {
+			            if ((index + 1) % 100 === 0) {
+			                $(el).after('<br>'); 
+			            }
+			        });
+			    },
+			    
+			    decode: function () {
+			        $('span:not([hidden]), br').remove();
+			        $('span[hidden]').show();
+			    }
+			    
+			};
+
+			var quiz = "Use jQuery to unscramble this message. Then, write function that made it. The answer will be an object that can scramble and unscramble any text any number of times.";
+			    
+			messageCodec.encode(quiz);
+
+		</script>
+		<style>
+			body {
+				font-family: monospace;
+			}
+		</style>
+	</head>
+	<body>
+
+	</body>
+</html>
